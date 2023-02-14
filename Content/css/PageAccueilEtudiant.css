@@ -1,0 +1,57 @@
+html{
+	margin-top:130px;
+}
+
+a{
+    text-decoration-line: none;
+    color: inherit;
+}
+
+.list {
+	display:flex;
+	flex-direction:row;
+	justify-content:space-evenly;
+	align-items:strech;
+	width:70%;
+	margin:auto;
+	font-size: 20px;
+  
+}
+
+.boite{
+	display:flex;
+	align-items:strech;
+	flex:auto;
+	flex-direction:column;
+	
+	
+}
+.boite_special{
+	display:flex;
+	background-color:#00ABE4;
+	border:2px solid #001F60;
+	color:white;
+	flex-direction:row;
+	justify-content:space-between;
+	width:300px;
+	height:603px;
+	margin-right: 40px;
+}
+.carre{
+	display:flex;
+	background-color:#00ABE4;
+	border:2px solid #001F60;
+	color:white;
+	flex-direction:row;
+	justify-content:space-between;
+	width:300px;
+	height:300px;
+	
+	
+}
+
+.haut{
+	align-self:flex-start;
+	
+}
+

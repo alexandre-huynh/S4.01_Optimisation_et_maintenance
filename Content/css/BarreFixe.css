@@ -1,0 +1,24 @@
+header{
+    position: fixed;
+    top: 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #00ABE4;
+    height: 100px;
+	width:100%;
+    margin-bottom: 50px;
+    color: white;
+	font-size:20px;
+}
+
+header > *{
+    margin: 0px 20px;
+}
+header > nav > *{
+    margin: 0px 20px;
+}
+
+header img{
+    width: 70px;
+}

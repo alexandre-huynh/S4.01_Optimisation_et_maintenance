@@ -1,0 +1,207 @@
+/*---------------------------------------*/
+/* Font réalisé entièrement par Ony*/
+/*---------------------------------------*/
+ @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap'); 
+
+* {
+
+font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  background-color: #0069d9;
+}
+
+main{
+  width: 50%;
+  background-color: white;
+  border: 1px solid lightgrey;
+  padding: 20px;
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+input,select{
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+}
+
+input:focus, select:focus { 
+  outline: none !important;
+  border-color: lightgray;
+  box-shadow: 0 0 10px #0069d9;
+}
+
+input[type="radio"] {
+  outline: none !important;
+  border-color: none;
+  box-shadow: none;
+  
+}
+.page{
+  display: none;
+}
+
+header{
+  display: flex;
+  justify-content: space-between;
+}
+
+.page-num{
+  border: 1px solid #001F60;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  padding: 10px;
+}
+
+.active{
+  color: white;
+  background-color: #001F60;
+}
+
+
+
+.wrapper{
+  display: inline-flex;
+  background: #fff;
+  height: 120px;
+  /* width : 100px; */
+  align-items: center;
+  justify-content: space-evenly;
+  border-radius: 5px;
+  padding: 20px 15px;
+  /* box-shadow: 5px 5px 30px rgba(0,0,0,0.2); */
+}
+.wrapper .option{
+  background: #fff;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 0 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0 15px;
+  border: 2px solid lightgrey;
+  transition: all 0.3s ease;
+}
+.wrapper .option .dot{
+  height: 20px;
+  width: 20px;
+  background: #d9d9d9;
+  border-radius: 50%;
+  position: relative;
+}
+.wrapper .option .dot::before{
+  position: absolute;
+  content: "";
+  top: 2px;
+  left: 5px;
+  width: 12px;
+  height: 12px;
+  background: #0069d9;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(1.5);
+  transition: all 0.3s ease;
+}
+
+/* input[type="radio"]{
+  display: none;
+}
+#option-1:checked:checked ~ .option-1,
+#option-2:checked:checked ~ .option-2,
+#option-3:checked:checked ~ .option-3,
+#option-4:checked:checked ~ .option-4
+{
+  border-color: #001F60;
+  background: #0069d9;
+}
+#option-1:checked:checked ~ .option-1 .dot,
+#option-2:checked:checked ~ .option-2 .dot,
+#option-3:checked:checked ~ .option-3 .dot,
+#option-4:checked:checked ~ .option-4 .dot
+{
+  background: #fff;
+}
+#option-1:checked:checked ~ .option-1 .dot::before,
+#option-2:checked:checked ~ .option-2 .dot::before,
+#option-3:checked:checked ~ .option-3 .dot::before,
+#option-4:checked:checked ~ .option-4 .dot::before
+{
+  opacity: 1;
+  transform: scale(1);
+}
+.wrapper .option span{
+  font-size: 20px;
+  color: #808080;
+}
+#option-1:checked:checked ~ .option-1 span,
+#option-2:checked:checked ~ .option-2 span,
+#option-3:checked:checked ~ .option-3 span,
+#option-4:checked:checked ~ .option-4 span
+{
+  color: #fff;
+}  */
+
+
+button {
+  display: inline-block;
+  background-color: #001F60;
+  border-radius: 10px;
+  border: 4px double #cccccc;
+  color: #eeeeee;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+button:hover {
+  background-color: #00ABE4 ;
+}
+
+/* 
+.box {
+  width: 120px;
+  height: 30px;
+  border: 1px solid #999;
+  font-size: 18px;
+  color: #1c87c9;
+  background-color: #eee;
+  border-radius: 5px;
+  box-shadow: 4px 4px #ccc;
+} */
+
+select {
+  width: 300px;
+  padding: 20px;
+  border: 0 !important;
+  background-color: #00ABE4;
+  /* needed */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* SVG background image */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Ctitle%3Edown-arrow%3C%2Ftitle%3E%3Cg%20fill%3D%22%23000000%22%3E%3Cpath%20d%3D%22M10.293%2C3.293%2C6%2C7.586%2C1.707%2C3.293A1%2C1%2C0%2C0%2C0%2C.293%2C4.707l5%2C5a1%2C1%2C0%2C0%2C0%2C1.414%2C0l5-5a1%2C1%2C0%2C1%2C0-1.414-1.414Z%22%20fill%3D%22%23000000%22%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+    background-size: .6em;
+    background-position: calc(100% - 1.3em) center;
+    background-repeat: no-repeat;
+}
+/* select::-ms-expand {
+    display: none;
+} */
+

@@ -1,0 +1,36 @@
+/* Réalisé par Ony  */
+a#scrollToTop {
+    border-radius:4px;
+    padding:17px;
+    text-align:center;
+    color:#fff;
+    background:#001F60;
+    position:fixed;
+    right:20px;
+    opacity:1;
+    z-index:99999;
+    transition:all ease-in 0.2s;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    text-decoration: none;
+  }
+  a#scrollToTop:before{ 
+    content: "↑";
+}
+
+  a#scrollToTop:hover {
+    cursor: pointer;
+    background-color: #00ABE4;
+    transition:all ease-in 0.2s;
+  }
+
+  a#scrollToTop.scrollUpInvisible{
+    bottom:-35px;
+    opacity:0;
+    transition:all ease-in 0.5s;
+  }
+
+  a#scrollToTop.scrollUpVisible{
+    bottom:20px;
+    opacity:1;
+  }
