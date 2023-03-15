@@ -224,6 +224,13 @@ class Model
 		}
 		return $infos;
 	}
+
+    public function getDocByAnnee($annee){
+        $requete = $this->bd->prepare('SELECT Type,Document_ID, CONCAT(Nom, Prenom) AS "Personne", Date_heure, URL, Version, Username FROM Document JOIN Etudiant USING(Student_ID) JOIN Login ON etudiant.Student_ID=login.User_ID WHERE YEAR(document.Date_heure) = :annee ORDER BY Date_heure DESC');
+        $requete->bindValue(':annee',$annee);
+        $requete-> execute();
+        return $requete->fetchAll(PDO::FETCH_ASSOC);
+    }
 	
 	
 	
@@ -880,6 +887,16 @@ class Model
 		
 		
 		
-	}	
+	}
+
+    public function getAnneesPromo(){
+        $requete = $this->bd->prepare('SELECT DISTINCT SUBSTRING(groupe.Promotion, 6,4) as "Année de stage" FROM groupe;');
+        $requete-> execute();
+        $reponse = [];
+        while ($ligne = $requete->fetch(PDO::FETCH_NUM)) {
+            $reponse[] = $ligne[0];
+        }
+        return $reponse;
+    }
 }
 	
