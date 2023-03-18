@@ -75,14 +75,14 @@ if(isset($_SESSION['attribut'])&&isset($_SESSION['documents'])){
                             -->
                             <th scope="rowgroup">Promotion <?= $v-1;?> / <?= $v;?></th>
                         </tr>
-                        <?php foreach($documents as $infos):?>
+                        <?php foreach($documents[$v] as $infos):?>
                             <tr>
                             <div>
-                                <th scope="row"><a href='Document_Stage/<?= $infos['user']?>/<?= $infos['Type']?>/<?= $infos['URL']?>'><?= $infos['url']?></a></th>
+                                <th scope="row"><a href='Document_Stage/<?= $infos['user']?>/<?= $infos['type']?>/<?= $infos['URL']?>'><?= $infos['url']?></a></th>
                                 <td><?= $infos['personne']?></td>
                                 <td><?= pdate($infos['date'])?></td>
-                                <td><?= typeDoc($infos['Type'])?></td>
-                                <td><?= $infos['Version']?></td>
+                                <td><?= typeDoc($infos['type'])?></td>
+                                <td><?= $infos['version']?></td>
                                     </div>
                                 <td>
 

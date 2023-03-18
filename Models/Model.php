@@ -67,7 +67,7 @@ class Model
 		
 		$dt = time();
 		$date=date( "Y-m-d H:i:s", $dt );
-		$req =$this->bd->prepare('INSERT INTO Document(Type,Student_ID,Date_heure,URL,version) value(:typeDeFichier,:id,:date,:fichier,:version)');
+		$req =$this->bd->prepare('INSERT INTO Document(Type,Student_ID,Date_heure,URL,version,Niveau) value(:typeDeFichier,:id,:date,:fichier,:version, (SELECT Niveau FROM Etudiant JOIN Groupe USING(Groupe_ID)))');
 		$req->bindValue(':typeDeFichier',$typeDeFichier);
 		$req->bindValue(':id',$id);
 		$req->bindValue(':fichier',$fichier);
@@ -225,11 +225,47 @@ class Model
 		return $infos;
 	}
 
-    public function getDocByAnnee($annee){
+    public function getDocByAnneeAndNiveau($annee,$niveau){
+        /*
+		Cette fonction renvoie un tableau ayant toute les données nécessaires
+			de tout les dernier documents envoyé par tout les étudiant,
+			pour l'affichage de la page enseignante
+		Cette fonction ne prend aucun paramètres. Si il n'y a pas de
+			document posté le tableau est vide.
+		La complexité de cette fonction est O(n) où n est le nombre de documents retournés par la requête. Cette fonction effectue une seule requête
+		à la base de données pour récupérer les informations de tous les documents triés par ordre décroissant de date d'ajout.
+		Elle utilise ensuite une boucle pour parcourir les résultats de la requête et pour obtenir des informations supplémentaires sur l'utilisateur qui a ajouté le document
+		en utilisant des fonctions comme getUser, getPrenom, getNom, getDepartement, getFormation. Elle retourne finalement un tableau contenant ces informations.
+		 */
+        $reqInfos =$this->bd->prepare("SELECT Type,Document_ID,Student_ID,Date_heure,URL,version FROM Document WHERE YEAR(Date_heure) = :annee AND Document.Niveau = :niveau ORDER BY Date_heure DESC");
+        $reqInfos -> bindValue(':annee',$annee);
+        $reqInfos -> bindValue(':niveau',$niveau);
+        $reqInfos ->execute();
+        $Docs=$reqInfos->fetchAll(PDO::FETCH_ASSOC);
+        $infos=[];
+        foreach($Docs as $info){
+            $user=$this->getUser($info['Student_ID'],'Etudiant');
+            $personne=$this->getPrenom($user)." ".$this->getNom($user);
+            $departement=$this->getDepartement($user);
+            $composante=$this->getFormation($user);
+            $infos[]=[
+                'type'=>$info['Type'],
+                'docID'=>$info['Document_ID'],
+                'personne'=>$personne,
+                'date'=>$info['Date_heure'],
+                'url'=>$info['URL'],
+                'version'=>$info['version'],
+                'user'=>$user
+            ];
+
+        }
+        return $infos;
+        /*
         $requete = $this->bd->prepare('SELECT Type,Document_ID, CONCAT(Nom, Prenom) AS "Personne", Date_heure, URL, Version, Username FROM Document JOIN Etudiant USING(Student_ID) JOIN Login ON etudiant.Student_ID=login.User_ID WHERE YEAR(document.Date_heure) = :annee ORDER BY Date_heure DESC');
         $requete->bindValue(':annee',$annee);
         $requete-> execute();
         return $requete->fetchAll(PDO::FETCH_ASSOC);
+        */
     }
 	
 	
@@ -898,5 +934,6 @@ class Model
         }
         return $reponse;
     }
+
 }
 	
