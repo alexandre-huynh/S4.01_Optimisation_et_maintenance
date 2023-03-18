@@ -64,6 +64,54 @@ public function action_accueil_enseignant()
         $this->render("login", $data);
     }
 
+public function action_accueil_enseignant2() {
+    if (isset($_SESSION["attribut"])){
+        $data=$_SESSION["attribut"];
+        if(sessionValide($data)){
+            $m = Model::getModel();
+            $user=$data["n"];
+            $userE=$m->userExist($user);
+
+            if ($userE!=false){
+                if (userValide($data,$userE)){
+                    $_SESSION["attribut"]=$data;
+                    $role=$data["role"];
+
+                    if ($role!="Étudiant"){
+                        $_SESSION["attribut"]=$data;
+                        // ======================================================================
+                        // on obtiens les différentes promo répertoriés concernés par les stages
+                        $data['annees_promo']=$m->getAnneesPromo();
+                        $stages = [];
+                        if (isset($_GET['niveau'])){
+                            $niveau = $_GET['niveau'];
+                        } else {
+                            // par défaut stages BUT2 S4 à changer si nécessaire TODO
+                            $niveau = 2;
+                        }
+                        // ----------------------------------------------------------------------
+                        // pour chaque années de promotion, on obtiens les stages de cette promotion
+                        foreach ($data['annees_promo'] as $annee){
+                            $stages[$annee] = $m->getStageByAnneeAndNiveau($annee, $niveau);
+                        }
+                        $data['stages'] = $stages;
+
+                        // ======================================================================
+
+                        $this->render("test_enseignant2",$data);
+                    }
+                }
+
+            }
+        }
+
+    }
+    $data = [
+        "title"=>"Page d'authentification"
+    ];
+    $this->render("login", $data);
+}
+
 	
 public function action_default()
     {

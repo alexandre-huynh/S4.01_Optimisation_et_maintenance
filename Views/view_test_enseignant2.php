@@ -1,13 +1,4 @@
 <?php //session_start();?>
-<?php 
-if(isset($_SESSION['attribut'])&&isset($_SESSION['documents'])){
-	$session=$_SESSION['attribut'];
-	if(sessionValide($session)&&$_SESSION['documents']!=""){
-		if (!isset($data)||!isset($documents)){
-			$data=$session;
-			$documents=$_SESSION['documents'];
-		}
-		?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -54,18 +45,17 @@ if(isset($_SESSION['attribut'])&&isset($_SESSION['documents'])){
               <table class="table table-dark table-striped table-hover table-bordered">
                 <thead>
                   <tr>
-                    <th>DOCUMENT</th>
-					<th>ÉTUDIANT</th>
-                    <th>DATE</th>
-                    <th>TYPE</th>
-					<th>VERSION</th>
-					<th>COMMENTAIRES</th><!-- form disant 'Voir les commentaires' avec plein d'hidden comme le Document_ID-->
+                    <th>ETUDIANT</th>
+					<th>POSTE</th>
+                    <th>GROUPE</th>
+                    <th>ENTREPRISE</th>
+					<th>LIEU</th>
+					<th>CONSULTER</th>
                     </tr>
-                </thead><?php //"Document_Stage/".$user.'/'.$doc.'/'.$fichier
-					if(isset($documents)){
-					if ($documents!=[]){?>
+                </thead>
 				<tbody>
                     <!-- Titre pour chaque années de promotion -->
+                    <?= var_dump($stages);?>
                     <?php foreach($annees_promo as $v):?>
                         <tr>
                             <!--
@@ -75,25 +65,17 @@ if(isset($_SESSION['attribut'])&&isset($_SESSION['documents'])){
                             -->
                             <th scope="rowgroup">Promotion <?= $v-1;?> / <?= $v;?></th>
                         </tr>
-                        <?php foreach($documents[$v] as $infos):?>
+                        <?php foreach($stages[$v] as $infos):?>
                             <tr>
                             <div>
-                                <th scope="row"><a href='Document_Stage/<?= e($infos['user'])?>/<?= e($infos['type'])?>/<?= e($infos['URL'])?>'><?= e($infos['url'])?></a></th>
-                                <td><?= e($infos['personne'])?></td>
-                                <td><?= e(pdate($infos['date']))?></td>
-                                <td><?= e(typeDoc($infos['type']))?></td>
-                                <td><?= e($infos['version'])?></td>
+                                <th scope="row"><a href='?controller=test&action=test_profil_etudiant&id=<?= e($infos['Stage_ID'])?>'>Stage de <?= e($infos['Nom'])?></a></th>
+                                <td><?= e($infos['Mission'])?></td>
+                                <td><?= e($infos['Groupe'])?></td>
+                                <td><?= e($infos['Entreprise'])?></td>
+                                <td><?= e($infos['Lieu'])?></td>
                                     </div>
                                 <td>
 
-                                    <form action='?controller=commentaire' method='post'>
-                                        <input type='hidden' name='url' value='Document_Stage/<?= e($infos['user'])?>/<?= e($infos['type'])?>/<?= e($infos['url'])?>' />
-                                        <input type='hidden' name='nomDoc' value='<?= e($infos['url'])?>' />
-                                        <input type='hidden' name='user' value='<?= e($infos['user'])?>' />
-                                        <input type='hidden' name='nomPersonne' value='<?= e($infos['personne'])?>' />
-                                        <input type='hidden' name='docID' value='<?= e($infos['docID'])?>' />
-                                        <input type='submit' value='Voir les commentaires'/>
-                                    </form>
                                 </td>
                             </tr>
                         <?php endforeach ?>
@@ -101,7 +83,7 @@ if(isset($_SESSION['attribut'])&&isset($_SESSION['documents'])){
 
 
               </tbody>
-			  <?php }?><?php }?>
+			  <?php ?><?php ?>
               </table>
             </div>
               
@@ -116,5 +98,3 @@ if(isset($_SESSION['attribut'])&&isset($_SESSION['documents'])){
       </div>
 </body>
 </html>
-<?php }?>
-<?php }?>

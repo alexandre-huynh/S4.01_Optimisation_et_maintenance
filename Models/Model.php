@@ -226,17 +226,6 @@ class Model
 	}
 
     public function getDocByAnneeAndNiveau($annee,$niveau){
-        /*
-		Cette fonction renvoie un tableau ayant toute les données nécessaires
-			de tout les dernier documents envoyé par tout les étudiant,
-			pour l'affichage de la page enseignante
-		Cette fonction ne prend aucun paramètres. Si il n'y a pas de
-			document posté le tableau est vide.
-		La complexité de cette fonction est O(n) où n est le nombre de documents retournés par la requête. Cette fonction effectue une seule requête
-		à la base de données pour récupérer les informations de tous les documents triés par ordre décroissant de date d'ajout.
-		Elle utilise ensuite une boucle pour parcourir les résultats de la requête et pour obtenir des informations supplémentaires sur l'utilisateur qui a ajouté le document
-		en utilisant des fonctions comme getUser, getPrenom, getNom, getDepartement, getFormation. Elle retourne finalement un tableau contenant ces informations.
-		 */
         $reqInfos =$this->bd->prepare("SELECT Type,Document_ID,Student_ID,Date_heure,URL,version FROM Document WHERE YEAR(Date_heure) = :annee AND Document.Niveau = :niveau ORDER BY Date_heure DESC");
         $reqInfos -> bindValue(':annee',$annee);
         $reqInfos -> bindValue(':niveau',$niveau);
@@ -933,6 +922,15 @@ class Model
             $reponse[] = $ligne[0];
         }
         return $reponse;
+    }
+
+    public function getStageByAnneeAndNiveau($annee, $niveau){
+        $reqInfos =$this->bd->prepare("SELECT Stage_ID,Mission,CONCAT(Etudiant.Nom, ' ',Etudiant.Prenom) as Nom, Etudiant.Groupe, Entreprise.Nom as Entreprise, Lieu FROM Stage JOIN Etudiant USING(Student_ID) JOIN Entreprise USING (Entreprise_ID) WHERE Année = :annee AND Stage.niveau = :niveau ORDER BY Année DESC");
+        //$reqInfos =$this->bd->prepare("SELECT Stage_ID,Mission,CONCAT(Etudiant.Nom, ' ',Etudiant.Prenom) as Nom, Etudiant.Groupe, Entreprise.Nom as Entreprise, Lieu FROM Stage JOIN Etudiant USING(Student_ID) JOIN Entreprise USING (Entreprise_ID) ORDER BY Année DESC");
+        $reqInfos -> bindValue(':annee', (int) $annee);
+        $reqInfos -> bindValue(':niveau',$niveau);
+        $reqInfos ->execute();
+        return $reqInfos->fetchAll(PDO::FETCH_ASSOC);
     }
 
 }
