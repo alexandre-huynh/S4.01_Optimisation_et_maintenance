@@ -66,7 +66,7 @@ if(isset($_SESSION['attribut'])&&isset($_SESSION['documents'])){
 					if ($documents!=[]){?>
 				<tbody>
                     <!-- Titre pour chaque années de promotion -->
-                    <?php foreach($annees_promo as $v):?>
+                    <?php foreach(array_reverse($annees_promo) as $v):?>
                         <tr>
                             <!--
                             Ex pour la promotion 2022 / 2023,
@@ -78,7 +78,7 @@ if(isset($_SESSION['attribut'])&&isset($_SESSION['documents'])){
                         <?php foreach($documents[$v] as $infos):?>
                             <tr>
                             <div>
-                                <th scope="row"><a href='Document_Stage/<?= e($infos['user'])?>/<?= e($infos['type'])?>/<?= e($infos['URL'])?>'><?= e($infos['url'])?></a></th>
+                                <th scope="row"><a href='Document_Stage/<?= e($infos['user'])?>/<?= e($infos['type'])?>/<?= e($infos['url'])?>'><?= e($infos['url'])?></a></th>
                                 <td><?= e($infos['personne'])?></td>
                                 <td><?= e(pdate($infos['date']))?></td>
                                 <td><?= e(typeDoc($infos['type']))?></td>

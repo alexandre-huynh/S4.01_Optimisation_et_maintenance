@@ -112,6 +112,49 @@ public function action_accueil_enseignant2() {
     $this->render("login", $data);
 }
 
+public function action_stage_etudiant(){
+    // si connecté
+    if (isset($_SESSION["attribut"])){
+        $data=$_SESSION["attribut"];
+        if(sessionValide($data)){
+            $m = Model::getModel();
+            $user=$data["n"];
+            $userE=$m->userExist($user);
+
+            // vérification si utilisateur existe
+            if ($userE!=false){
+                if (userValide($data,$userE)){
+                    $_SESSION["attribut"]=$data;
+                    $role=$data["role"];
+
+                    // vérification si enseignant
+                    if ($role!="Étudiant"){
+                        $_SESSION["attribut"]=$data;
+                        // ======================================================================
+                        // obtient la liste des documents lié à ce stage
+                        // se base sur l'année, le niveau du stage et id etudiant
+
+                        // l'utilisation de valeurs $_get n'est en théorie pas un problème
+                        // étant donné que cet espace est normalement réservé aux enseignants
+                        // une vérification est effectué pour chaque page
+                        $data['documents'] = $m->getDocStageByAnneeAndNiveauAndId($_GET['annee'], $_GET['niveau'], $_GET['student_id']);
+                        $data['stage'] = $m->getInfosStage($_GET['stage_id']);
+                        // ======================================================================
+                        $this->render("test_stage_etudiant",$data);
+                    }
+                }
+
+            }
+        }
+
+    }
+    // si non connecté
+    $data = [
+        "title"=>"Page d'authentification"
+    ];
+    $this->render("login", $data);
+}
+
 	
 public function action_default()
     {

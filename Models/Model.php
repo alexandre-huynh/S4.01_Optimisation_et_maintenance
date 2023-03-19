@@ -225,6 +225,8 @@ class Model
 		return $infos;
 	}
 
+    // utilisé pour afficher les documents de telle année de promotion, pour tel semestre/année de formation (niveau)
+    // interface enseignant
     public function getDocByAnneeAndNiveau($annee,$niveau){
         $reqInfos =$this->bd->prepare("
             SELECT 
@@ -270,6 +272,51 @@ class Model
         $requete-> execute();
         return $requete->fetchAll(PDO::FETCH_ASSOC);
         */
+    }
+
+    // utilisé pour afficher les documents d'un étudiant spécifique
+    // pour telle année de promotion, pour tel semestre/année de formation (niveau)
+    // interface enseignant, après avoir cliqué sur un stage
+    public function getDocStageByAnneeAndNiveauAndId($annee,$niveau,$id){
+        $reqInfos =$this->bd->prepare("
+            SELECT 
+                Type,
+                Document_ID,
+                Document.Student_ID,
+                Date_heure,
+                URL,
+                version 
+            FROM 
+                Document 
+                    JOIN Etudiant USING(Student_ID) 
+                    JOIN Groupe ON Groupe.Groupe_ID = Document.Groupe_ID 
+            WHERE 
+                YEAR(Date_heure) = :annee AND Groupe.Niveau = :niveau AND Document.Student_ID = :id
+            ORDER BY 
+                Date_heure DESC");
+        $reqInfos -> bindValue(':annee',$annee);
+        $reqInfos -> bindValue(':niveau',$niveau);
+        $reqInfos -> bindValue(':id',$id);
+        $reqInfos ->execute();
+        $Docs=$reqInfos->fetchAll(PDO::FETCH_ASSOC);
+        $infos=[];
+        foreach($Docs as $info){
+            $user=$this->getUser($info['Student_ID'],'Etudiant');
+            $personne=$this->getPrenom($user)." ".$this->getNom($user);
+            $departement=$this->getDepartement($user);
+            $composante=$this->getFormation($user);
+            $infos[]=[
+                'type'=>$info['Type'],
+                'docID'=>$info['Document_ID'],
+                'personne'=>$personne,
+                'date'=>$info['Date_heure'],
+                'url'=>$info['URL'],
+                'version'=>$info['version'],
+                'user'=>$user
+            ];
+
+        }
+        return $infos;
     }
 	
 	
@@ -943,6 +990,7 @@ class Model
         $reqInfos =$this->bd->prepare("
             SELECT 
                 Stage_ID,
+                Etudiant.Student_ID,
                 Mission,
                 CONCAT(Etudiant.Nom, ' ',Etudiant.Prenom) as Nom, 
                 Groupe.Nom as Groupe, 
@@ -963,6 +1011,52 @@ class Model
         $reqInfos -> bindValue(':niveau',$niveau);
         $reqInfos ->execute();
         return $reqInfos->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getInfosStage($stage_id){
+        $reqInfos =$this->bd->prepare("
+            SELECT 
+                CONCAT(Personnel.Prenom, ' ', Personnel.Nom) as Personnel_name,
+                Personnel.mail as Personnel_mail,
+                
+                CONCAT(Etudiant.Prenom, ' ', Etudiant.Nom) as Etudiant_name,
+                Etudiant.mail as Etudiant_mail,
+                
+                CONCAT(Tuteur.Prénom, ' ', Tuteur.Nom) as Tuteur_name,
+                Tuteur.contact as Tuteur_mail,
+                
+                Mission,
+                Année,
+                Durée,
+                Gratification,
+                Teletravail,
+                
+                Département,
+                Composante,
+                
+                Etudiant.groupe as Groupe_actuel,
+                Groupe.Nom as Groupe_pendant,
+                Groupe.Promotion,
+                
+                Entreprise.nom as Entreprise_nom,
+                Entreprise.Description,
+                Entreprise.Adresse,
+                Entreprise.telephone,
+                Entreprise.Lieu
+                
+            FROM 
+                Stage
+                    JOIN Personnel USING(Personnel_ID)
+                    JOIN Etudiant USING(Student_ID) 
+                    JOIN Tuteur USING(Tuteur_ID) 
+                    JOIN Entreprise ON Tuteur.Entreprise_ID = Entreprise.Entreprise_ID 
+                    JOIN Groupe ON Stage.Groupe_ID = Groupe.Groupe_ID
+                    JOIN Formation ON Formation.Formation_ID = Groupe.Formation_ID
+            WHERE 
+                Stage.Stage_ID = :stage_id");
+        $reqInfos -> bindValue(':stage_id', $stage_id);
+        $reqInfos ->execute();
+        return $reqInfos->fetch(PDO::FETCH_ASSOC);
     }
 
 }

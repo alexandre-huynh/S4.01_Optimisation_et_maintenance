@@ -66,7 +66,7 @@
                         <?php foreach($stages[$v] as $infos):?>
                             <tr>
                             <div>
-                                <th scope="row"><a href='?controller=test&action=test_profil_etudiant&id=<?= e($infos['Stage_ID'])?>'>Stage de <?= e($infos['Nom'])?></a></th>
+                                <th scope="row"><a href='?controller=test&action=stage_etudiant&student_id=<?= e($infos['Student_ID'])?>&stage_id=<?= e($infos['Stage_ID'])?>&annee=<?= $v?>&niveau=<?= e($_GET['niveau'])?>'>Stage de <?= e($infos['Nom'])?></a></th>
                                 <td><?= e($infos['Groupe'])?></td>
                                 <td><?= e($infos['Mission'])?></td>
                                 <td><?= e($infos['Entreprise'])?></td>
