@@ -38,8 +38,8 @@
                 <div class="col-8">
                   <h3 class="mb-0">Profils de mes étudiants</h3>
                 </div>
-                <div><a href="?controller=test&action=accueil_enseignant2&niveau=2"><?php if ($_GET["niveau"]==2) : ?>>><?php endif ?> BUT2 - Semestre 4</a></div>
-                <div><a href="?controller=test&action=accueil_enseignant2&niveau=3"><?php if ($_GET["niveau"]==3) : ?>>><?php endif ?> BUT3 - Semestre 6</a></div>
+                <div><a href="?controller=test&action=accueil_enseignant2&niveau=2"><?php if (!isset($_GET["niveau"]) || $_GET["niveau"]==2) : ?>>><?php endif ?> BUT2 - Semestre 4</a></div>
+                <div><a href="?controller=test&action=accueil_enseignant2&niveau=3"><?php if (isset($_GET["niveau"]) && $_GET["niveau"]==3) : ?>>><?php endif ?> BUT3 - Semestre 6</a></div>
             <div class="card-body">
               <div class="container">
               <table class="table table-dark table-striped table-hover table-bordered">

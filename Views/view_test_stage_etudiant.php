@@ -42,6 +42,7 @@
                 <!--Documents-->
                 <div class="container">
                     <h2>Documents liés à ce stage</h2>
+                    <hr>
                 <table class="table table-dark table-striped table-hover table-bordered">
                   <tr>
                       <th>DOCUMENT</th>
@@ -79,76 +80,114 @@
                 </div>
                 <!--Informations sur le stage-->
                 <div class="container">
-                    <h2>Informations sur le stage</h2>
-
+                    <h2>Informations sur ce stage</h2>
+                    <hr>
+                    <p><i>Les informations peuvent être modifiés s'il est nécessaire.</i></p>
                     <div>
                         <form action='?controller=test&action=update_info_stage' method='post'>
                             <!--Etudiant-->
+                            <h3>• Etudiant(e) stagiaire</h3>
                             <p>
-                                <label>Etudiant stagiaire :
+                                <label><b>Etudiant(e) stagiaire :</b>
                                     <input type='text' name='etudiant_name' value='<?= e($data['stage']['Etudiant_name'])?>' />
                                 </label>
                             </p>
                             <p>
-                                <label>Mail de l'étudiant :
-                                    <input type='text' name='etudiant_mail' value='<?= e($data['stage']['Etudiant_mail'])?>' />
+                                <label><b>Mail de l'étudiant(e) :</b>
+                                    <input type='email' name='etudiant_mail' value='<?= e($data['stage']['Etudiant_mail'])?>' />
                                 </label>
                             </p>
                             <p>
-                                Formation : <?=e($data['stage']['Composante'])?> (Département <?=e($data['stage']['Département'])?>)
+                                <b>Formation :</b> <?=e($data['stage']['Composante'])?> (Département <?=e($data['stage']['Département'])?>)
                             </p>
                             <p>
-                                Promotion : <?=e($data['stage']['Promotion'])?>
+                                <b>Promotion :</b> <?=e($data['stage']['Promotion'])?>
                             </p>
                             <p>
-                                Groupe lors du stage : <?=e($data['stage']['Groupe_pendant'])?> <?php if (e($data['stage']['Groupe_actuel']) != e($data['stage']['Groupe_pendant']) ) : ?>(actuel : <?=e($data['stage']['Groupe_actuel'])?>)<?php endif;?>
+                                <b>Groupe lors du stage :</b> <?=e($data['stage']['Groupe_pendant'])?> <?php if (e($data['stage']['Groupe_actuel']) != e($data['stage']['Groupe_pendant']) ) : ?>(actuel : <?=e($data['stage']['Groupe_actuel'])?>)<?php endif;?>
                             </p>
                             <hr>
                             <!--Encadrant-->
+                            <h3>• Enseignant(e) encadrant</h3>
                             <p>
-                                <label>Enseignant encadrant :
+                                <label><b>Enseignant(e) encadrant :</b>
                                     <input type='text' name='personnel_name' value='<?= e($data['stage']['Personnel_name'])?>' />
                                 </label>
                             </p>
                             <p>
-                                <label>Mail de l'enseignant:
-                                    <input type='text' name='personnel_mail' value='<?= e($data['stage']['Personnel_mail'])?>' />
+                                <label><b>Mail de l'enseignant(e):</b>
+                                    <input type='email' name='personnel_mail' value='<?= e($data['stage']['Personnel_mail'])?>' />
                                 </label>
                             </p>
                             <hr>
+                            <h3>• Tuteur de stage</h3>
                             <!--Tuteur-->
                             <p>
-                                <label>Tuteur de stage :
+                                <label><b>Tuteur de stage :</b>
                                     <input type='text' name='tuteur_name' value='<?= e($data['stage']['Tuteur_name'])?>' />
                                 </label>
                             </p>
                             <p>
-                                <label>Mail du tuteur :
-                                    <input type='text' name='tuteur_mail' value='<?= e($data['stage']['Tuteur_mail'])?>' />
+                                <label><b>Mail du tuteur :</b>
+                                    <input type='email' name='tuteur_mail' value='<?= e($data['stage']['Tuteur_mail'])?>' />
                                 </label>
                             </p>
                             <hr>
                             <!--Entreprise-->
+                            <h3>• Entreprise</h3>
                             <p>
-                                <label>Entreprise :
+                                <label><b>Entreprise :</b>
                                     <input type='text' name='entreprise_nom' value='<?= e($data['stage']['Entreprise_nom'])?>' />
                                 </label>
                             </p>
                             <p>
-                                <label>Description :
-                                    <input type='text' name='description' value='<?= e($data['stage']['Description'])?>' />
+                                <label><b>Description :</b>
+                                    </br>
+                                    <textarea name="description" placeholder="Description de l'entreprise" rows="5" cols="30"><?= e($data['stage']['Description'])?></textarea>
                                 </label>
                             </p>
                             <p>
-                                <label>Adresse :
+                                <label><b>Adresse :</b>
                                     <input type='text' name='adresse' value='<?= e($data['stage']['Adresse'])?>' />
                                 </label>
                             </p>
                             <p>
-                                <label>Lieu :
+                                <label><b>Lieu :</b>
                                     <input type='text' name='adresse' value='<?= e($data['stage']['Lieu'])?>' />
                                 </label>
                             </p>
+                            <hr>
+                            <!--Stage-->
+                            <h3>• Contenu du stage</h3>
+                            <p>
+                                <label><b>Mission :</b>
+                                    </br>
+                                    <textarea name="mission" placeholder="Missions du stagiaire" rows="5" cols="30"><?= e($data['stage']['Mission'])?></textarea>
+                                </label>
+                            </p>
+                            <p>
+                                <label><b>Année :</b>
+                                    <input type='number' name='annee' value='<?= e($data['stage']['Année'])?>' step="1" min="0" />
+                                </label>
+                            </p>
+                            <p>
+                                <label><b>Durée :</b>
+                                    <input type='number' name='duree' value='<?= e($data['stage']['Durée'])?>' step="1" min="0" /> heures
+                                </label>
+                            </p>
+                            <p>
+                                <label><b>Teletravail :</b>
+                                    <input type='number' name='teletravail' value='<?= e($data['stage']['Teletravail'])?>' step="1" min="0" /> heures
+                                </label>
+                            </p>
+                            <p>
+                                <label><b>Gratification :</b>
+                                    <input type='checkbox' name='gratification' value='True' <?php if (isset($data['stage']['Gratification']) && e($data['stage']['Gratification']) ) : ?>ticked<?php endif ?> />
+                                </label>
+                            </p>
+                            <hr>
+                            <!--Validation-->
+                            <p> <input type="submit" value="Modifier les informations"/> </p>
                         </form>
                     </div>
                 </div>
