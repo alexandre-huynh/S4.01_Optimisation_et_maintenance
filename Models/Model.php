@@ -67,7 +67,7 @@ class Model
 		
 		$dt = time();
 		$date=date( "Y-m-d H:i:s", $dt );
-		$req =$this->bd->prepare('INSERT INTO Document(Type,Student_ID,Date_heure,URL,version,Niveau) value(:typeDeFichier,:id,:date,:fichier,:version, (SELECT Niveau FROM Etudiant JOIN Groupe USING(Groupe_ID)))');
+		$req =$this->bd->prepare('INSERT INTO Document(Type,Student_ID,Date_heure,URL,version,Groupe_ID) value(:typeDeFichier,:id,:date,:fichier,:version, (SELECT Groupe_ID FROM Etudiant WHERE Student_ID = :id))');
 		$req->bindValue(':typeDeFichier',$typeDeFichier);
 		$req->bindValue(':id',$id);
 		$req->bindValue(':fichier',$fichier);
@@ -226,7 +226,22 @@ class Model
 	}
 
     public function getDocByAnneeAndNiveau($annee,$niveau){
-        $reqInfos =$this->bd->prepare("SELECT Type,Document_ID,Student_ID,Date_heure,URL,version FROM Document WHERE YEAR(Date_heure) = :annee AND Document.Niveau = :niveau ORDER BY Date_heure DESC");
+        $reqInfos =$this->bd->prepare("
+            SELECT 
+                Type,
+                Document_ID,
+                Document.Student_ID,
+                Date_heure,
+                URL,
+                version 
+            FROM 
+                Document 
+                    JOIN Etudiant USING(Student_ID) 
+                    JOIN Groupe ON Groupe.Groupe_ID = Document.Groupe_ID 
+            WHERE 
+                YEAR(Date_heure) = :annee AND Groupe.Niveau = :niveau 
+            ORDER BY 
+                Date_heure DESC");
         $reqInfos -> bindValue(':annee',$annee);
         $reqInfos -> bindValue(':niveau',$niveau);
         $reqInfos ->execute();
@@ -915,7 +930,7 @@ class Model
 	}
 
     public function getAnneesPromo(){
-        $requete = $this->bd->prepare('SELECT DISTINCT SUBSTRING(groupe.Promotion, 6,4) as "Année de stage" FROM groupe;');
+        $requete = $this->bd->prepare('SELECT DISTINCT SUBSTRING(groupe.Promotion, 6,4) as "Année de stage" FROM groupe ORDER BY "Année de stage" DESC;');
         $requete-> execute();
         $reponse = [];
         while ($ligne = $requete->fetch(PDO::FETCH_NUM)) {
@@ -925,7 +940,24 @@ class Model
     }
 
     public function getStageByAnneeAndNiveau($annee, $niveau){
-        $reqInfos =$this->bd->prepare("SELECT Stage_ID,Mission,CONCAT(Etudiant.Nom, ' ',Etudiant.Prenom) as Nom, Etudiant.Groupe, Entreprise.Nom as Entreprise, Lieu FROM Stage JOIN Etudiant USING(Student_ID) JOIN Entreprise USING (Entreprise_ID) WHERE Année = :annee AND Stage.niveau = :niveau ORDER BY Année DESC");
+        $reqInfos =$this->bd->prepare("
+            SELECT 
+                Stage_ID,
+                Mission,
+                CONCAT(Etudiant.Nom, ' ',Etudiant.Prenom) as Nom, 
+                Groupe.Nom as Groupe, 
+                Entreprise.Nom as Entreprise, 
+                Lieu 
+            FROM 
+                Stage 
+                    JOIN Etudiant USING(Student_ID) 
+                    JOIN Tuteur USING(Tuteur_ID) 
+                    JOIN Entreprise ON Tuteur.Entreprise_ID = Entreprise.Entreprise_ID 
+                    JOIN Groupe ON Stage.Groupe_ID = Groupe.Groupe_ID 
+            WHERE 
+                Année = :annee AND Groupe.niveau = :niveau 
+            ORDER BY 
+                Nom");
         //$reqInfos =$this->bd->prepare("SELECT Stage_ID,Mission,CONCAT(Etudiant.Nom, ' ',Etudiant.Prenom) as Nom, Etudiant.Groupe, Entreprise.Nom as Entreprise, Lieu FROM Stage JOIN Etudiant USING(Student_ID) JOIN Entreprise USING (Entreprise_ID) ORDER BY Année DESC");
         $reqInfos -> bindValue(':annee', (int) $annee);
         $reqInfos -> bindValue(':niveau',$niveau);

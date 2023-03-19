@@ -38,45 +38,39 @@
                 <div class="col-8">
                   <h3 class="mb-0">Profils de mes étudiants</h3>
                 </div>
-                <div><a href="?controller=test&action=accueil_enseignant&niveau=2">BUT2 - Semestre 4</a></div>
-                <div><a href="?controller=test&action=accueil_enseignant&niveau=3">BUT3 - Semestre 6</a></div>
+                <div><a href="?controller=test&action=accueil_enseignant2&niveau=2"><?php if ($_GET["niveau"]==2) : ?>>><?php endif ?> BUT2 - Semestre 4</a></div>
+                <div><a href="?controller=test&action=accueil_enseignant2&niveau=3"><?php if ($_GET["niveau"]==3) : ?>>><?php endif ?> BUT3 - Semestre 6</a></div>
             <div class="card-body">
               <div class="container">
               <table class="table table-dark table-striped table-hover table-bordered">
                 <thead>
                   <tr>
                     <th>ETUDIANT</th>
-					<th>POSTE</th>
                     <th>GROUPE</th>
+					<th>MISSION</th>
                     <th>ENTREPRISE</th>
 					<th>LIEU</th>
-					<th>CONSULTER</th>
                     </tr>
                 </thead>
 				<tbody>
                     <!-- Titre pour chaque années de promotion -->
-                    <?= var_dump($stages);?>
-                    <?php foreach($annees_promo as $v):?>
+                    <?php foreach(array_reverse($annees_promo) as $v):?>
                         <tr>
                             <!--
                             Ex pour la promotion 2022 / 2023,
                             on a la valeur 2023,
                             donc afficher 2023 - 1 = 2022 puis 2023
                             -->
-                            <th scope="rowgroup">Promotion <?= $v-1;?> / <?= $v;?></th>
+                            <th>Promotion <?= $v-1;?> / <?= $v;?></th>
                         </tr>
                         <?php foreach($stages[$v] as $infos):?>
                             <tr>
                             <div>
                                 <th scope="row"><a href='?controller=test&action=test_profil_etudiant&id=<?= e($infos['Stage_ID'])?>'>Stage de <?= e($infos['Nom'])?></a></th>
-                                <td><?= e($infos['Mission'])?></td>
                                 <td><?= e($infos['Groupe'])?></td>
+                                <td><?= e($infos['Mission'])?></td>
                                 <td><?= e($infos['Entreprise'])?></td>
                                 <td><?= e($infos['Lieu'])?></td>
-                                    </div>
-                                <td>
-
-                                </td>
                             </tr>
                         <?php endforeach ?>
                     <?php endforeach ?>
