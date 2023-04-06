@@ -34,8 +34,45 @@ class Controller_connexion extends Controller
 							$userE['documents']=$m->derniersDoc();
 							$_SESSION['attribut']=$userE;
 							$_SESSION['documents']=$userE['documents'];
-							
-							$this->render("professeur_profile",$userE);//
+
+                            $data=$_SESSION["attribut"];
+                            if(sessionValide($data)){
+                                $user=$data["n"];
+                                $userE=$m->userExist($user);
+
+                                if ($userE!=false){
+                                    if (userValide($data,$userE)){
+                                        $_SESSION["attribut"]=$data;
+                                        $role=$data["role"];
+
+                                        if ($role!="Étudiant"){
+                                            $_SESSION["attribut"]=$data;
+                                            // ======================================================================
+                                            // on obtiens les différentes promo répertoriés concernés par les stages
+                                            $data['annees_promo']=$m->getAnneesPromo();
+                                            $stages = [];
+                                            if (isset($_GET['niveau'])){
+                                                $niveau = $_GET['niveau'];
+                                            } else {
+                                                // par défaut stages BUT2 S4 à changer si nécessaire TODO
+                                                $niveau = 2;
+                                            }
+                                            // ----------------------------------------------------------------------
+                                            // pour chaque années de promotion, on obtiens les stages de cette promotion
+                                            foreach ($data['annees_promo'] as $annee){
+                                                $stages[$annee] = $m->getStageByAnneeAndNiveau($annee, $niveau);
+                                            }
+                                            $data['stages'] = $stages;
+
+                                            // ======================================================================
+
+                                            $this->render("enseignant",$data);
+                                        }
+                                    }
+
+                                }
+                            }
+							$this->render("enseignant",$userE);//
 
 						}
 						
@@ -51,26 +88,182 @@ class Controller_connexion extends Controller
 							elseif($role=="Enseignant Tuteur"){
 								$userE['documents']=$m->derniersDoc();
 								$_SESSION['documents']=$userE['documents'];
-								$this->render("professeur_profile",$userE);//
+
+                                $data=$_SESSION["attribut"];
+                                if(sessionValide($data)){
+                                    $m = Model::getModel();
+                                    $user=$data["n"];
+                                    $userE=$m->userExist($user);
+
+                                    if ($userE!=false){
+                                        if (userValide($data,$userE)){
+                                            $_SESSION["attribut"]=$data;
+                                            $role=$data["role"];
+
+                                            if ($role!="Étudiant"){
+                                                $_SESSION["attribut"]=$data;
+                                                // ======================================================================
+                                                // on obtiens les différentes promo répertoriés concernés par les stages
+                                                $data['annees_promo']=$m->getAnneesPromo();
+                                                $stages = [];
+                                                if (isset($_GET['niveau'])){
+                                                    $niveau = $_GET['niveau'];
+                                                } else {
+                                                    // par défaut stages BUT2 S4 à changer si nécessaire TODO
+                                                    $niveau = 2;
+                                                }
+                                                // ----------------------------------------------------------------------
+                                                // pour chaque années de promotion, on obtiens les stages de cette promotion
+                                                foreach ($data['annees_promo'] as $annee){
+                                                    $stages[$annee] = $m->getStageByAnneeAndNiveau($annee, $niveau);
+                                                }
+                                                $data['stages'] = $stages;
+
+                                                // ======================================================================
+
+                                                $this->render("enseignant",$data);
+                                            }
+                                        }
+
+                                    }
+                                }
+								$this->render("enseignant",$userE);//
 								
 							}
 							
 							elseif ($role=="Enseignant Validateur"){
 								$userE['documents']=$m->derniersDoc();
 								$_SESSION['documents']=$userE['documents'];
-								$this->render("professeur_profile",$userE);
+
+                                $data=$_SESSION["attribut"];
+                                if(sessionValide($data)){
+                                    $m = Model::getModel();
+                                    $user=$data["n"];
+                                    $userE=$m->userExist($user);
+
+                                    if ($userE!=false){
+                                        if (userValide($data,$userE)){
+                                            $_SESSION["attribut"]=$data;
+                                            $role=$data["role"];
+
+                                            if ($role!="Étudiant"){
+                                                $_SESSION["attribut"]=$data;
+                                                // ======================================================================
+                                                // on obtiens les différentes promo répertoriés concernés par les stages
+                                                $data['annees_promo']=$m->getAnneesPromo();
+                                                $stages = [];
+                                                if (isset($_GET['niveau'])){
+                                                    $niveau = $_GET['niveau'];
+                                                } else {
+                                                    // par défaut stages BUT2 S4 à changer si nécessaire TODO
+                                                    $niveau = 2;
+                                                }
+                                                // ----------------------------------------------------------------------
+                                                // pour chaque années de promotion, on obtiens les stages de cette promotion
+                                                foreach ($data['annees_promo'] as $annee){
+                                                    $stages[$annee] = $m->getStageByAnneeAndNiveau($annee, $niveau);
+                                                }
+                                                $data['stages'] = $stages;
+
+                                                // ======================================================================
+
+                                                $this->render("enseignant",$data);
+                                            }
+                                        }
+
+                                    }
+                                }
+								$this->render("enseignant",$userE);
 							}
 							
 							elseif ($role=="Membre du Secrétariat"){
 								$userE['documents']=$m->derniersDoc();
 								$_SESSION['documents']=$userE['documents'];
-								$this->render("professeur_profile",$userE);
+
+                                $data=$_SESSION["attribut"];
+                                if(sessionValide($data)){
+                                    $m = Model::getModel();
+                                    $user=$data["n"];
+                                    $userE=$m->userExist($user);
+
+                                    if ($userE!=false){
+                                        if (userValide($data,$userE)){
+                                            $_SESSION["attribut"]=$data;
+                                            $role=$data["role"];
+
+                                            if ($role!="Étudiant"){
+                                                $_SESSION["attribut"]=$data;
+                                                // ======================================================================
+                                                // on obtiens les différentes promo répertoriés concernés par les stages
+                                                $data['annees_promo']=$m->getAnneesPromo();
+                                                $stages = [];
+                                                if (isset($_GET['niveau'])){
+                                                    $niveau = $_GET['niveau'];
+                                                } else {
+                                                    // par défaut stages BUT2 S4 à changer si nécessaire TODO
+                                                    $niveau = 2;
+                                                }
+                                                // ----------------------------------------------------------------------
+                                                // pour chaque années de promotion, on obtiens les stages de cette promotion
+                                                foreach ($data['annees_promo'] as $annee){
+                                                    $stages[$annee] = $m->getStageByAnneeAndNiveau($annee, $niveau);
+                                                }
+                                                $data['stages'] = $stages;
+
+                                                // ======================================================================
+
+                                                $this->render("enseignant",$data);
+                                            }
+                                        }
+
+                                    }
+                                }
+								$this->render("enseignant",$userE);
 							}
 							
 							elseif ($role=="Coordinatrice de stage"){
 								$userE['documents']=$m->derniersDoc();
 								$_SESSION['documents']=$userE['documents'];
-								$this->render("professeur_profile",$userE);
+
+                                $data=$_SESSION["attribut"];
+                                if(sessionValide($data)){
+                                    $m = Model::getModel();
+                                    $user=$data["n"];
+                                    $userE=$m->userExist($user);
+
+                                    if ($userE!=false){
+                                        if (userValide($data,$userE)){
+                                            $_SESSION["attribut"]=$data;
+                                            $role=$data["role"];
+
+                                            if ($role!="Étudiant"){
+                                                $_SESSION["attribut"]=$data;
+                                                // ======================================================================
+                                                // on obtiens les différentes promo répertoriés concernés par les stages
+                                                $data['annees_promo']=$m->getAnneesPromo();
+                                                $stages = [];
+                                                if (isset($_GET['niveau'])){
+                                                    $niveau = $_GET['niveau'];
+                                                } else {
+                                                    // par défaut stages BUT2 S4 à changer si nécessaire TODO
+                                                    $niveau = 2;
+                                                }
+                                                // ----------------------------------------------------------------------
+                                                // pour chaque années de promotion, on obtiens les stages de cette promotion
+                                                foreach ($data['annees_promo'] as $annee){
+                                                    $stages[$annee] = $m->getStageByAnneeAndNiveau($annee, $niveau);
+                                                }
+                                                $data['stages'] = $stages;
+
+                                                // ======================================================================
+
+                                                $this->render("enseignant",$data);
+                                            }
+                                        }
+
+                                    }
+                                }
+								$this->render("enseignant",$userE);
 							}
 						
 
@@ -111,26 +304,182 @@ class Controller_connexion extends Controller
 							elseif($role=="Enseignant Tuteur"){
 								$userE['documents']=$m->derniersDoc();
 								$_SESSION['documents']=$userE['documents'];
-								$this->render("professeur_profile",$session);//
+
+                                $data=$_SESSION["attribut"];
+                                if(sessionValide($data)){
+                                    $m = Model::getModel();
+                                    $user=$data["n"];
+                                    $userE=$m->userExist($user);
+
+                                    if ($userE!=false){
+                                        if (userValide($data,$userE)){
+                                            $_SESSION["attribut"]=$data;
+                                            $role=$data["role"];
+
+                                            if ($role!="Étudiant"){
+                                                $_SESSION["attribut"]=$data;
+                                                // ======================================================================
+                                                // on obtiens les différentes promo répertoriés concernés par les stages
+                                                $data['annees_promo']=$m->getAnneesPromo();
+                                                $stages = [];
+                                                if (isset($_GET['niveau'])){
+                                                    $niveau = $_GET['niveau'];
+                                                } else {
+                                                    // par défaut stages BUT2 S4 à changer si nécessaire TODO
+                                                    $niveau = 2;
+                                                }
+                                                // ----------------------------------------------------------------------
+                                                // pour chaque années de promotion, on obtiens les stages de cette promotion
+                                                foreach ($data['annees_promo'] as $annee){
+                                                    $stages[$annee] = $m->getStageByAnneeAndNiveau($annee, $niveau);
+                                                }
+                                                $data['stages'] = $stages;
+
+                                                // ======================================================================
+
+                                                $this->render("enseignant",$data);
+                                            }
+                                        }
+
+                                    }
+                                }
+								$this->render("enseignant",$session);//
 								
 							}
 							
 							elseif ($role=="Enseignant Validateur"){
 								$userE['documents']=$m->derniersDoc();
 								$_SESSION['documents']=$userE['documents'];
-								$this->render("professeur_profile",$session);
+
+                                $data=$_SESSION["attribut"];
+                                if(sessionValide($data)){
+                                    $m = Model::getModel();
+                                    $user=$data["n"];
+                                    $userE=$m->userExist($user);
+
+                                    if ($userE!=false){
+                                        if (userValide($data,$userE)){
+                                            $_SESSION["attribut"]=$data;
+                                            $role=$data["role"];
+
+                                            if ($role!="Étudiant"){
+                                                $_SESSION["attribut"]=$data;
+                                                // ======================================================================
+                                                // on obtiens les différentes promo répertoriés concernés par les stages
+                                                $data['annees_promo']=$m->getAnneesPromo();
+                                                $stages = [];
+                                                if (isset($_GET['niveau'])){
+                                                    $niveau = $_GET['niveau'];
+                                                } else {
+                                                    // par défaut stages BUT2 S4 à changer si nécessaire TODO
+                                                    $niveau = 2;
+                                                }
+                                                // ----------------------------------------------------------------------
+                                                // pour chaque années de promotion, on obtiens les stages de cette promotion
+                                                foreach ($data['annees_promo'] as $annee){
+                                                    $stages[$annee] = $m->getStageByAnneeAndNiveau($annee, $niveau);
+                                                }
+                                                $data['stages'] = $stages;
+
+                                                // ======================================================================
+
+                                                $this->render("enseignant",$data);
+                                            }
+                                        }
+
+                                    }
+                                }
+								$this->render("enseignant",$session);
 							}
 							
 							elseif ($role=="Membre du Secrétariat"){
 								$userE['documents']=$m->derniersDoc();
 								$_SESSION['documents']=$userE['documents'];
-								$this->render("professeur_profile",$session);
+
+                                $data=$_SESSION["attribut"];
+                                if(sessionValide($data)){
+                                    $m = Model::getModel();
+                                    $user=$data["n"];
+                                    $userE=$m->userExist($user);
+
+                                    if ($userE!=false){
+                                        if (userValide($data,$userE)){
+                                            $_SESSION["attribut"]=$data;
+                                            $role=$data["role"];
+
+                                            if ($role!="Étudiant"){
+                                                $_SESSION["attribut"]=$data;
+                                                // ======================================================================
+                                                // on obtiens les différentes promo répertoriés concernés par les stages
+                                                $data['annees_promo']=$m->getAnneesPromo();
+                                                $stages = [];
+                                                if (isset($_GET['niveau'])){
+                                                    $niveau = $_GET['niveau'];
+                                                } else {
+                                                    // par défaut stages BUT2 S4 à changer si nécessaire TODO
+                                                    $niveau = 2;
+                                                }
+                                                // ----------------------------------------------------------------------
+                                                // pour chaque années de promotion, on obtiens les stages de cette promotion
+                                                foreach ($data['annees_promo'] as $annee){
+                                                    $stages[$annee] = $m->getStageByAnneeAndNiveau($annee, $niveau);
+                                                }
+                                                $data['stages'] = $stages;
+
+                                                // ======================================================================
+
+                                                $this->render("enseignant",$data);
+                                            }
+                                        }
+
+                                    }
+                                }
+								$this->render("enseignant",$session);
 							}
 							
 							elseif ($role=="Coordinatrice de stage"){
 								$userE['documents']=$m->derniersDoc();
 								$_SESSION['documents']=$userE['documents'];
-								$this->render("professeur_profile",$session);
+
+                                $data=$_SESSION["attribut"];
+                                if(sessionValide($data)){
+                                    $m = Model::getModel();
+                                    $user=$data["n"];
+                                    $userE=$m->userExist($user);
+
+                                    if ($userE!=false){
+                                        if (userValide($data,$userE)){
+                                            $_SESSION["attribut"]=$data;
+                                            $role=$data["role"];
+
+                                            if ($role!="Étudiant"){
+                                                $_SESSION["attribut"]=$data;
+                                                // ======================================================================
+                                                // on obtiens les différentes promo répertoriés concernés par les stages
+                                                $data['annees_promo']=$m->getAnneesPromo();
+                                                $stages = [];
+                                                if (isset($_GET['niveau'])){
+                                                    $niveau = $_GET['niveau'];
+                                                } else {
+                                                    // par défaut stages BUT2 S4 à changer si nécessaire TODO
+                                                    $niveau = 2;
+                                                }
+                                                // ----------------------------------------------------------------------
+                                                // pour chaque années de promotion, on obtiens les stages de cette promotion
+                                                foreach ($data['annees_promo'] as $annee){
+                                                    $stages[$annee] = $m->getStageByAnneeAndNiveau($annee, $niveau);
+                                                }
+                                                $data['stages'] = $stages;
+
+                                                // ======================================================================
+
+                                                $this->render("enseignant",$data);
+                                            }
+                                        }
+
+                                    }
+                                }
+								$this->render("enseignant",$session);
 							}
 						}
 					}
@@ -180,20 +529,172 @@ class Controller_connexion extends Controller
 							$this->render("etudiant_profile",$session);//renvoie le tableau directement pris du session
 						}
 						elseif($role=="Enseignant Tuteur"){
-							$this->render("professeur_profile",$session);//
+                            $data=$_SESSION["attribut"];
+                            if(sessionValide($data)){
+                                $m = Model::getModel();
+                                $user=$data["n"];
+                                $userE=$m->userExist($user);
+
+                                if ($userE!=false){
+                                    if (userValide($data,$userE)){
+                                        $_SESSION["attribut"]=$data;
+                                        $role=$data["role"];
+
+                                        if ($role!="Étudiant"){
+                                            $_SESSION["attribut"]=$data;
+                                            // ======================================================================
+                                            // on obtiens les différentes promo répertoriés concernés par les stages
+                                            $data['annees_promo']=$m->getAnneesPromo();
+                                            $stages = [];
+                                            if (isset($_GET['niveau'])){
+                                                $niveau = $_GET['niveau'];
+                                            } else {
+                                                // par défaut stages BUT2 S4 à changer si nécessaire TODO
+                                                $niveau = 2;
+                                            }
+                                            // ----------------------------------------------------------------------
+                                            // pour chaque années de promotion, on obtiens les stages de cette promotion
+                                            foreach ($data['annees_promo'] as $annee){
+                                                $stages[$annee] = $m->getStageByAnneeAndNiveau($annee, $niveau);
+                                            }
+                                            $data['stages'] = $stages;
+
+                                            // ======================================================================
+
+                                            $this->render("enseignant",$data);
+                                        }
+                                    }
+
+                                }
+                            }
+							$this->render("enseignant",$session);//
 								
 						}
 							
 						elseif ($role=="Enseignant Validateur"){
-							$this->render("professeur_profile",$session);
+                            $data=$_SESSION["attribut"];
+                            if(sessionValide($data)){
+                                $m = Model::getModel();
+                                $user=$data["n"];
+                                $userE=$m->userExist($user);
+
+                                if ($userE!=false){
+                                    if (userValide($data,$userE)){
+                                        $_SESSION["attribut"]=$data;
+                                        $role=$data["role"];
+
+                                        if ($role!="Étudiant"){
+                                            $_SESSION["attribut"]=$data;
+                                            // ======================================================================
+                                            // on obtiens les différentes promo répertoriés concernés par les stages
+                                            $data['annees_promo']=$m->getAnneesPromo();
+                                            $stages = [];
+                                            if (isset($_GET['niveau'])){
+                                                $niveau = $_GET['niveau'];
+                                            } else {
+                                                // par défaut stages BUT2 S4 à changer si nécessaire TODO
+                                                $niveau = 2;
+                                            }
+                                            // ----------------------------------------------------------------------
+                                            // pour chaque années de promotion, on obtiens les stages de cette promotion
+                                            foreach ($data['annees_promo'] as $annee){
+                                                $stages[$annee] = $m->getStageByAnneeAndNiveau($annee, $niveau);
+                                            }
+                                            $data['stages'] = $stages;
+
+                                            // ======================================================================
+
+                                            $this->render("enseignant",$data);
+                                        }
+                                    }
+
+                                }
+                            }
+							$this->render("enseignant",$session);
 						}
 							
 						elseif ($role=="Membre du Secrétariat"){
-							$this->render("professeur_profile",$session);
+                            $data=$_SESSION["attribut"];
+                            if(sessionValide($data)){
+                                $m = Model::getModel();
+                                $user=$data["n"];
+                                $userE=$m->userExist($user);
+
+                                if ($userE!=false){
+                                    if (userValide($data,$userE)){
+                                        $_SESSION["attribut"]=$data;
+                                        $role=$data["role"];
+
+                                        if ($role!="Étudiant"){
+                                            $_SESSION["attribut"]=$data;
+                                            // ======================================================================
+                                            // on obtiens les différentes promo répertoriés concernés par les stages
+                                            $data['annees_promo']=$m->getAnneesPromo();
+                                            $stages = [];
+                                            if (isset($_GET['niveau'])){
+                                                $niveau = $_GET['niveau'];
+                                            } else {
+                                                // par défaut stages BUT2 S4 à changer si nécessaire TODO
+                                                $niveau = 2;
+                                            }
+                                            // ----------------------------------------------------------------------
+                                            // pour chaque années de promotion, on obtiens les stages de cette promotion
+                                            foreach ($data['annees_promo'] as $annee){
+                                                $stages[$annee] = $m->getStageByAnneeAndNiveau($annee, $niveau);
+                                            }
+                                            $data['stages'] = $stages;
+
+                                            // ======================================================================
+
+                                            $this->render("enseignant",$data);
+                                        }
+                                    }
+
+                                }
+                            }
+							$this->render("enseignant",$session);
 						}
 							
 						elseif ($role=="Coordinatrice de stage"){
-							$this->render("professeur_profile",$session);
+                            $data=$_SESSION["attribut"];
+                            if(sessionValide($data)){
+                                $m = Model::getModel();
+                                $user=$data["n"];
+                                $userE=$m->userExist($user);
+
+                                if ($userE!=false){
+                                    if (userValide($data,$userE)){
+                                        $_SESSION["attribut"]=$data;
+                                        $role=$data["role"];
+
+                                        if ($role!="Étudiant"){
+                                            $_SESSION["attribut"]=$data;
+                                            // ======================================================================
+                                            // on obtiens les différentes promo répertoriés concernés par les stages
+                                            $data['annees_promo']=$m->getAnneesPromo();
+                                            $stages = [];
+                                            if (isset($_GET['niveau'])){
+                                                $niveau = $_GET['niveau'];
+                                            } else {
+                                                // par défaut stages BUT2 S4 à changer si nécessaire TODO
+                                                $niveau = 2;
+                                            }
+                                            // ----------------------------------------------------------------------
+                                            // pour chaque années de promotion, on obtiens les stages de cette promotion
+                                            foreach ($data['annees_promo'] as $annee){
+                                                $stages[$annee] = $m->getStageByAnneeAndNiveau($annee, $niveau);
+                                            }
+                                            $data['stages'] = $stages;
+
+                                            // ======================================================================
+
+                                            $this->render("enseignant",$data);
+                                        }
+                                    }
+
+                                }
+                            }
+							$this->render("enseignant",$session);
 						}
 					}
 				}
